@@ -11,6 +11,12 @@ ALTO = 500
 ventana = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Laberinto - Un solo archivo")
 
+####fondo####
+fondo= pygame.transform.scale(pygame.image.load("laberinto\\fondo hola.jpg"), (ANCHO,ALTO))
+
+
+
+
 RELOJ = pygame.time.Clock()
 # Colores
 BLANCO = (255, 255, 255)
@@ -18,6 +24,8 @@ NEGRO = (0, 0, 0)
 AZUL = (50, 150, 255)
 ROJO = (255, 80, 80)
 VERDE = (80, 255, 120)
+
+
 
 # ======================
 # CLASE BASE
@@ -44,6 +52,7 @@ class GameSprite(pygame.sprite.Sprite):
 class Player(GameSprite):
     def __init__(self, x, y):
         super().__init__(x, y, 40, 40, AZUL)
+        self.image =pygame.transform.scale(pygame.image.load("laberinto\holaaaa.png"), (40,40))
         self.vel_x = 0
         self.vel_y = 0
 
@@ -76,7 +85,7 @@ class Muro(GameSprite):
 # ======================
 class Meta(GameSprite):
     def __init__(self, x, y):
-        super().__init__(x, y, 40, 40, VERDE)
+        super().__init__(x, y, 40, 40, AZUL)
 
 # ======================
 # CREACIÓN DE OBJETOS
@@ -98,6 +107,11 @@ muros.append(Muro(200,150,20,350))
 muros.append(Muro(300,0,20,350))
 muros.append(Muro(400,150,20,350))
 muros.append(Muro(500,0,20,350))
+
+pygame.mixer.music.load("laberinto/HOLAAAAA.mp3")
+pygame.mixer.music.play()
+
+winer_sound = pygame.mixer.Sound('laberinto\win.mp3')
 
 #bucle principal
 jugando=True
@@ -124,10 +138,11 @@ while jugando:
 
     # Verificamos victoria
     if jugador.rect.colliderect(meta.rect):
+        winer_sound.play()
         ganaste = True
         jugando = False
 # Dibujo
-    ventana.fill(BLANCO)
+    ventana.blit(fondo,(0,0))
     for muro in muros:
         muro.draw()
     meta.draw()
@@ -139,7 +154,7 @@ while jugando:
 # ======================
 # PANTALLA FINAL
 # ======================
-ventana.fill(BLANCO)
+ventana.blit(fondo,(0,0))
 fuente = pygame.font.SysFont(None, 60)
 if ganaste:
     texto = fuente.render("¡GANASTE!", True, VERDE)
